@@ -1,6 +1,4 @@
-local version = 0.1
-local contents = readfile("ui.lua")
-contents()
+import('ui.lua')
 
 local localPlayer = game:GetService("Players").LocalPlayer
 local camera = workspace.CurrentCamera
