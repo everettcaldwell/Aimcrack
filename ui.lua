@@ -4,6 +4,7 @@ Bracket:Notification({Title = string.format("Specter V%s loaded", version_info.v
 local Window = Bracket:Window({Name = string.format("Scepter V%s", version_info.version), Enabled = true, Color = Color3.new(1,0.5,0.25), Size = UDim2.new(0,496,0,496), Position = UDim2.new(0.5,-248,0.5,-248)}) do
     local Tab = Window:Tab({Name = "Aimbot", Side="Left"}) do
         local reloadBotton = Tab:Button({Name = "Reload UI",Side = "Left",Callback = function() Window = nil end, ToolTip="Reload UI"})
+        out("new window")
         --Button.Name = "Name"
         --Button.Callback = function() end
         --Button:ToolTip("Text")

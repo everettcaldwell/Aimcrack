@@ -1,9 +1,9 @@
 local version_info = {
-    debug = false,
+    debug = true,
     version = "0.1",
 }
 
-local root_url = "https://raw.githubusercontent.com/cyr0zn/Specter/main/"
+local root_url = version_info.debug and "http://localhost:8000/" or "https://raw.githubusercontent.com/cyr0zn/Specter/main/"
 
 local out = version_info.debug and function(T, ...)
     return warn("debug: "..T:format(...))
