@@ -1,7 +1,5 @@
-# Specter
-Phantom Forces cheat script
 ![Screenshot of alpha version](/docs/iivTTsy.png)
-* *Only tested with Synapse* *
+*Only tested with Synapse*
 ## Instructions
 1. Open your Synapse root directory and navigate to the `autoexec` folder.
 2. Create a new script and copy this code into it: `loadstring(game:HttpGet("https://raw.githubusercontent.com/cyr0zn/Specter/main/loader.lua"))()`
