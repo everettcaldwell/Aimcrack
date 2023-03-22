@@ -1,6 +1,6 @@
 # Specter
 Phantom Forces cheat script
-![Screenshot of alpha version](https://imgur.com/a/k8hyQUT)
+![Screenshot of alpha version](/docs/iivTTsy.png)
 * *Only tested with Synapse* *
 ## Instructions
 1. Open your Synapse root directory and navigate to the `autoexec` folder.
