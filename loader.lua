@@ -1,5 +1,5 @@
 local version_info = {
-    debug = true,
+    debug = false,
     version = "0.1",
 }
 
