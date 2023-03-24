@@ -33,10 +33,18 @@ local SilentToggle = AimTab:CreateToggle({
     CurrentValue = false,
     Flag = "SilentEnabled", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
     Callback = function(Value)
-        Silent(Value)
+        SilentSettings.enabled = Value
     end,
 })
-
+local SilentPartDropdown = AimTab:CreateDropdown({
+    Name = "Target",
+    Options = {"Head","Torso"},
+    CurrentOption = "Head",
+    Flag = "SilentPartTargetValue", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+    Callback = function(Option)
+        SilentSettings.targetPart = string.lower(Option)
+    end,
+ })
 local SilentFovSlider = AimTab:CreateSlider({
    Name = "Fov",
    Range = {0, 80},

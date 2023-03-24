@@ -16,11 +16,11 @@ end
 
 -- Iterator can be used to load faster (1695 modules are loaded)
 if require_func then
-    OldRequire = hookfunction(require_func, function(moduleCache, moduleName, dealloc) --module_cache, module_name, deallocBool
+    oldrequire = hookfunction(require_func, function(moduleCache, moduleName, dealloc) --module_cache, module_name, deallocBool
         if DEBUG_VERBOSE then
             print(string.format("require(%s,%s,%s)", tostring(moduleCache), moduleName, tostring(dealloc)))
         end
-        return OldRequire(moduleCache, moduleName, dealloc)
+        return oldrequire(moduleCache, moduleName, dealloc)
     end)
 end
 
