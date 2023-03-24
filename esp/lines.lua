@@ -72,9 +72,6 @@ local function skeleton(parts)
     end
 end
 
-local function boxes(parts)
-end
-
 local function linesOn()
     print("lines enabled")
     drawCallback = rs.RenderStepped:Connect(function()
@@ -84,7 +81,6 @@ local function linesOn()
             end
         end
         lines = {}
-        
         for _, enemyPlayer in ipairs(EnemyTeam():GetPlayers()) do
             local tpo, isReady = GetThirdPerson(enemyPlayer)
             if tpo and isReady then

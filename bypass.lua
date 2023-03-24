@@ -1,32 +1,40 @@
-local runService=game:GetService("RunService")
-local replicatedFirst=game:GetService("ReplicatedFirst")
+local runService = game:GetService("RunService")
+local replicatedFirst = game:GetService("ReplicatedFirst")
 
-replicatedFirst.ChildAdded:Connect(function(d) -- Disables parallel execution of 'Framework'. This is the bypass.
-    if d:IsA("Actor")then 
+replicatedFirst.ChildAdded:Connect(function(actor)
+    if actor:IsA("Actor") then
         replicatedFirst.ChildAdded:Wait()
-        for e,f in next,d:GetChildren() do 
-            f.Parent=replicatedFirst 
-        end 
-    end 
+        for _, localScript in next, actor:GetChildren() do
+            localScript.Parent = replicatedFirst
+        end
+    end
 end)
 
-local g;
-g=hookmetamethod(runService.Stepped,"__index",function(self,h)
-    local i=g(self,h) -- returns Stepped:<Connect,ConnectParallel> event function
-    if h=="ConnectParallel" and not checkcaller()then
-        hookfunction(i,newcclosure(function(j,k) -- hook ConnectParallel(self,callback())
-            return g(self,"Connect")(j,function() -- 1) g(self, "Connect") returns the Connect event function. 2) Stepped:Connect(self, callback()) is called
-                return self:Wait() and k() -- waits until the Stepped event is fired and then executes the original callback function
+local stepped__index;
+stepped__index = hookmetamethod(runService.Stepped, "__index", function(self, funcname)
+    local func = stepped__index(self, funcname)
+    if funcname == "ConnectParallel" and not checkcaller() then
+        hookfunction(func, newcclosure(function(event, callback)
+            return stepped__index(self, "Connect")(event, function()
+                return self:Wait() and callback()
             end)
         end))
-    end;
-    return i 
+    end
+    return func
 end)
 
+local shared=getrenv().shared
 
- local shared=getrenv().shared;
- repeat task.wait()
- until shared.close;
- getgenv().shared.require=shared.require 
- 
- printconsole("[Scepter] ANTICHEAT BYPASSED\n",255,255,0)
+while true do
+    if shared.close then
+        local closefunc
+        closefunc = hookfunction(shared.close, function()
+            getgenv().ModulesLoaded = true
+            closefunc()
+        end)
+        getgenv().shared.require = shared.require
+        printconsole("[Scepter] ANTICHEAT BYPASSED\n",255,255,0)
+        break
+    end
+    task.wait()
+end

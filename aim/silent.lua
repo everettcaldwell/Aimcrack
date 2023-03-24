@@ -1,11 +1,13 @@
 local rs = game:GetService("RunService")
 local cameraInterface = shared.require("CameraInterface")
+local characterInterface = shared.require("CharacterInterface")
 local characterEvents = shared.require("CharacterEvents")
 local contentDatabase = shared.require("ContentDatabase")
 local weaponControllerInterface = shared.require("WeaponControllerInterface")
 local playerDataStoreClient = shared.require("PlayerDataStoreClient")
 local activeLoadoutUtils = shared.require("ActiveLoadoutUtils")
 local playerDataUtils = shared.require("PlayerDataUtils")
+local firearmObject = shared.require("FirearmObject")
 
 local mainCameraObject = nil
 
@@ -92,7 +94,7 @@ local function silent(state)
             table.insert(fovRings, circle)
 
             local target = getClosestPlayer()
-
+            
             if target then
                 local relCoords = target.screenCoords-mainCameraObject._currentCamera.ViewportSize/2
                 if relCoords.Magnitude < fovRadius then
@@ -106,26 +108,21 @@ local function silent(state)
     end
 end
 
-getgenv().Hooks = {}
 local function norecoil(state)
-    local function unhook()
-        if getgenv().Hooks.weapondatafunc then
-            contentDatabase.getWeaponData = getgenv().Hooks.weapondatafunc
-            getgenv().Hooks.weapondatafunc = nil
-        end
-    end
     if state then
-        unhook()
-        getgenv().Hooks.weapondatafunc = hookfunction(contentDatabase.getWeaponData, function(...)
-            local data = getgenv().Hooks.weapondatafunc(...)
-            setreadonly(data, false)
-            data.camkickspeed = 0
-            setreadonly(data, true)
-            return data
+        Hooks.weapondatafunc = hookfunction(firearmObject.getWeaponStat, function(self, statname)
+            local stathooks = {
+                camkickspeed = 0,
+                aimcamkickspeed = 0,
+                hipfirespread = 0,
+                modelkickspeed = 2^31-1
+            }
+            if stathooks[statname] then
+                return stathooks[statname]
+            end
+            return Hooks.weapondatafunc(self, statname)
         end)
         weaponControllerInterface.spawn(activeLoadoutUtils.getActiveLoadoutData(playerDataStoreClient.getPlayerData()), playerDataUtils.getAttLoadoutData(playerDataStoreClient.getPlayerData())) -- Forces another weapon data query so that our hooked values are applied
-    else
-        unhook()
     end
 end
 
@@ -133,7 +130,6 @@ characterEvents.onSpawned:connect(function()
     if silentSettings.enabled then
         if cameraInterface:getCameraType() == "MainCamera" then
             mainCameraObject = cameraInterface:getActiveCamera()
-            norecoil(true)
             silent(true)
         end
     end
@@ -142,4 +138,5 @@ characterEvents.onDespawning:connect(function()
     if silentSettings.enabled then silent(false) end
 end)
 
+getgenv().norecoil = norecoil
 getgenv().SilentSettings = silentSettings
