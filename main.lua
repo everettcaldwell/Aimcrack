@@ -15,6 +15,5 @@ import('esp/chams.lua')
 
 --aim
 import('aim/silent.lua')
+import('charactermods.lua')
 import('ui.lua')
-
-norecoil(true)
