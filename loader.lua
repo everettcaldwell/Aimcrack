@@ -18,6 +18,7 @@ local function import(file)
     if not x then
         return warn(string.format("failed to import %s\n\t--> %s", file, a))
     end
+    return a
 end
 
 getgenv().import = import

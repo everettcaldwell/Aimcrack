@@ -1,0 +1,5 @@
+todo:
+
+recoil and spread slider
+fov slider
+silent stickyness slider

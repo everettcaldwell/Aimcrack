@@ -1,43 +1,31 @@
+local xor = import("tools/xor.lua")
 local Rayfield = loadstring(game:HttpGet('https://raw.githubusercontent.com/shlexware/Rayfield/main/source'))()
+
 local MainWindow = Rayfield:CreateWindow({
     Name = "Scepter",
-    LoadingTitle = "Scepter Hub",
+    LoadingTitle = "scepter.gg",
     LoadingSubtitle = "made by cyr0zn",
     ConfigurationSaving = {
-       Enabled = true,
-       FolderName = "Scepter",
-       FileName = "Phantom Forces"
+        Enabled = true,
+        FolderName = "Scepter",
+        FileName = "Phantom Forces"
     },
     Discord = {
-       Enabled = true,
-       Invite = "XgFMtkGuQj",
-       RememberJoins = false
+        Enabled = true,
+        Invite = "Zk822WFMYC",
+        RememberJoins = false
     },
     KeySystem = true,
     KeySettings = {
-       Title = "Scepter Hub",
-       Subtitle = "Key System",
-       Note = "Join the discord (discord.gg/XgFMtkGuQj)",
-       FileName = "key",
-       SaveKey = true,
-       GrabKeyFromSite = false,
-       Key = "scepterbesthub"
+        Title = "Scepter",
+        Subtitle = "Key Sytem",
+        Note = "This cheat is 100% free but you need to join Discord!",
+        FileName = "key",
+        SaveKey = false,
+        GrabKeyFromSite = false,
+        Key = xor.decrypt("18061c1b111c194b1e0c", "key")
     }
  })
-
-Rayfield:Notify({
-   Title = "Join the Discord!",
-   Content = "discord.gg/XgFMtkGuQj or you can click the link on GitHub",
-   Duration = 10,
-   Image = 4483362458,
-   Actions = {
-    Ignore = {
-        Name = "Okay!",
-        Callback = function()
-        end
-   },
-},
-})
 
  -- AIM 
 local AimTab = MainWindow:CreateTab("Aim", 4483362458)
@@ -142,3 +130,12 @@ local WalkSpeedSlider = CharacterTab:CreateSlider({
          setspeed(Value)
     end,
  })
+ 
+ local NoFallToggle = CharacterTab:CreateToggle({
+    Name = "No fall",
+    CurrentValue = false,
+    Flag = "NoFallToggleValue",
+    Callback = function(Value)
+        Scepter.nofall(Value)
+    end,
+})

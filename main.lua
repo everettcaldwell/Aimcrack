@@ -1,4 +1,5 @@
 -- global tables
+getgenv().Scepter = {}
 getgenv().Hooks = {}
 
 import('bypass.lua')
@@ -15,5 +16,8 @@ import('esp/chams.lua')
 
 --aim
 import('aim/silent.lua')
-import('charactermods.lua')
+
+--character
+import('character/speedhack.lua')
+import('character/nofall.lua')
 import('ui.lua')
