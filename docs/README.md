@@ -38,10 +38,10 @@ Note that this cheat **only** works when in the autoexec folder. This is because
 - [ ] gun sway
 
 ## ESP
-- [ ] player chams
+- [x] player chams
 - [ ] weapon chams
 - [ ] boxes
-- [ ] skeletons
+- [x] skeletons
 - [ ] infos: name, health, ammo, distance, state
 - [ ] visible only (for each esp)
 - [ ] limit distance
@@ -58,8 +58,8 @@ Note that this cheat **only** works when in the autoexec folder. This is because
 - [ ] gravity
 - [ ] jump power
 - [ ] jump cooldown
-- [ ] fall damage
-- [ ] speedhack
+- [x] fall damage
+- [x] speedhack
 - [ ] third person
 - [ ] weapon animations
 - [ ] Fast reload
