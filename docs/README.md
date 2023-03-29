@@ -16,7 +16,7 @@ Note that this cheat **only** works when in the autoexec folder. This is because
 - [ ] visible only
 - [ ] movement prediction
 - [ ] bullet drop calculation
-- [ ] dynamic fov
+- [x] dynamic fov
 - [ ] show fov
 - [ ] smoothing (hip, sights)
 - [ ] 360
@@ -32,8 +32,8 @@ Note that this cheat **only** works when in the autoexec folder. This is because
 - [ ] break windows
 
 ### Recoil Control System
-- [ ] recoil
-- [ ] spread
+- [x] recoil
+- [x] spread
 - [ ] gun bob
 - [ ] gun sway
 
