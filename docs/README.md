@@ -39,7 +39,7 @@ Note that this cheat **only** works when in the autoexec folder. This is because
 
 ## ESP
 - [x] player chams
-- [ ] weapon chams
+- [x] weapon chams
 - [ ] boxes
 - [x] skeletons
 - [ ] infos: name, health, ammo, distance, state
