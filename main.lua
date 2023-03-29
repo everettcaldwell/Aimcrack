@@ -12,7 +12,8 @@ import('players.lua')
 
 --esp
 import('esp/lines.lua')
-import('esp/chams.lua')
+import('esp/playerchams.lua')
+import('esp/objectchams.lua')
 
 --aim
 import('aim/silent.lua')
