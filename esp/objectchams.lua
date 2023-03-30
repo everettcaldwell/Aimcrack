@@ -33,17 +33,32 @@ local function step()
     end)
 end
 
-runtimeService.RenderStepped:Connect(function()
-    step()
-end)
-
-runtimeService.Stepped:Connect(function()
-    for k,v in ipairs(vpFrame:GetChildren()) do
-        v:Destroy()
+local renderstepped = nil
+local stepped = nil
+local onSpawned = nil
+local function weaponchams(state)
+    if state then
+        if not renderstepped then
+            renderstepped = runtimeService.RenderStepped:Connect(function()
+                step()
+            end)
+            stepped = runtimeService.Stepped:Connect(function()
+                for k,v in ipairs(vpFrame:GetChildren()) do
+                    v:Destroy()
+                end
+            end)
+            onSpawned = characterEvents.onSpawned:connect(function()
+                vpFrame = constructViewport()
+            end)
+        end
+    else
+        if renderstepped then renderstepped:Disconnect() end
+        if stepped then stepped:Disconnect() end
+        if onSpawned then onSpawned:Disconnect() end
+        renderstepped = nil
+        stepped = nil
+        onSpawned = nil
     end
-end)
+end
 
-characterEvents.onSpawned:connect(function()
-    vpFrame = constructViewport()
-end)
-
+getgenv().weaponchams = weaponchams

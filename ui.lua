@@ -15,7 +15,7 @@ local MainWindow = Rayfield:CreateWindow({
         Invite = "Zk822WFMYC",
         RememberJoins = false
     },
-    KeySystem = true,
+    KeySystem = not version_info.debug,
     KeySettings = {
         Title = "Scepter",
         Subtitle = "Key Sytem",
@@ -82,8 +82,8 @@ local NoRecoilToggle = AimTab:CreateToggle({
 local EspTab = MainWindow:CreateTab("Esp", 4483362458) -- Title, Image
 local LinesSection = EspTab:CreateSection("Lines")
 local SkeletonToggle = EspTab:CreateToggle({
-    Name = "Skeletons",
-    CurrentValue = false,
+    Name = "Enable All", -- temporary
+    CurrentValue = true,
     Flag = "SkeletonsEnabled", 
     Callback = function(Value)
         Lines(Value)
@@ -100,12 +100,21 @@ local SkeletonColorPicker = EspTab:CreateColorPicker({
 })
 
 local ChamsSection = EspTab:CreateSection("Chams")
-local ChamsToggle = EspTab:CreateToggle({
-    Name = "Enable",
+local PlayerChamsToggle = EspTab:CreateToggle({
+    Name = "Players",
     CurrentValue = false,
-    Flag = "ChamsEnabled",
+    Flag = "PlayerChamsToggleValue",
     Callback = function(Value)
         Chams(Value)
+    end,
+})
+
+local WeaponChamsToggle = EspTab:CreateToggle({
+    Name = "Weapons",
+    CurrentValue = false,
+    Flag = "WeaponChamsToggleValue",
+    Callback = function(Value)
+        weaponchams(Value)
     end,
 })
 
@@ -117,6 +126,7 @@ local ChamsColorPicker = EspTab:CreateColorPicker({
         UpdateHighlightColor(Value)
     end
 })
+
 
 local CharacterTab = MainWindow:CreateTab("Character", 4483362458)
 local WalkSpeedSlider = CharacterTab:CreateSlider({
