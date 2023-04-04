@@ -18,4 +18,8 @@ local function nofall(state)
     end
 end
 
-Scepter.nofall = nofall
+if not Interface.Character then
+    Interface.Character = {}
+end
+
+Interface.Character.Nofall = nofall

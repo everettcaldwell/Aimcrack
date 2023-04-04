@@ -11,9 +11,6 @@ characterEvents.onSpawned:connect(function()
     end)
 end)
 
-local function setspeed(speed)
-    multiplier = speed
-end
 
 
 characterEvents.onDespawning:connect(function()
@@ -21,4 +18,10 @@ characterEvents.onDespawning:connect(function()
     renderstepped = nil
 end)
 
-getgenv().setspeed = setspeed
+if not Interface.Character then -- change check to mt __index
+    Interface.Character = {}
+end
+
+Interface.Character.SetSpeed = function (v)
+    multiplier = v
+end

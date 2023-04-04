@@ -5,12 +5,11 @@ local firearmObject = shared.require("FirearmObject")
 
 local mainCameraObject = nil
 
-local silentSettings = {
-    enabled = true,
-    targetPart = "head",
-    fov = 20,
-    fovRingColor = Color3.fromRGB(255,255,0)
-}
+local enabled = false
+local showFov = false
+local targetPart = "head"
+local fov = 20
+local fovRenderColor = Color3.fromRGB(255,255,0)
 
 local function canHit(targetCharacter, targetPart)
     local ignore = { workspace.Terrain, workspace.Ignore, PlayerService.LocalPlayer.Character }
@@ -37,9 +36,9 @@ local function getClosestPlayer()
         if tpo and isReady then
             local character = tpo:getCharacterModel()
             local parts = tpo:getCharacterHash()
-            local pos, visible = mainCameraObject._currentCamera:WorldToViewportPoint(parts[silentSettings.targetPart].Position)
-            if visible and canHit(character, parts[silentSettings.targetPart]) then
-                table.insert(visibleTargets, {part=parts[silentSettings.targetPart], screenCoords = Vector2.new(pos.X, pos.Y)})
+            local pos, visible = mainCameraObject._currentCamera:WorldToViewportPoint(parts[targetPart].Position)
+            if visible and canHit(character, parts[targetPart]) then
+                table.insert(visibleTargets, {part=parts[targetPart], screenCoords = Vector2.new(pos.X, pos.Y)})
             end
         end
     end
@@ -57,35 +56,37 @@ local function getClosestPlayer()
     return closestTarget
 end
 
-local fovRings = {}
+local fovDraws = {}
 local renderstepped = nil
 local function silent(state)
     local function disconnect()
         if renderstepped then
             renderstepped:Disconnect()
-            for i,v in pairs(fovRings) do
+            for _,v in pairs(fovDraws) do
                 v:Remove()
             end
-            fovRings = {}
+            fovDraws = {}
         end
     end
     if state then
         disconnect()
-        renderstepped = rs.RenderStepped:Connect(function() 
-            for i,v in pairs(fovRings) do
+        renderstepped = rs.RenderStepped:Connect(function()
+            local fovRadius = fov/mainCameraObject._currentCamera.FieldOfView*mainCameraObject._currentCamera.ViewportSize.Y/2
+
+            for _,v in pairs(fovDraws) do
                 v:Remove()
             end
+            fovDraws = {}
 
-            local fovRadius = silentSettings.fov/mainCameraObject._currentCamera.FieldOfView*mainCameraObject._currentCamera.ViewportSize.Y/2
-            -- drawing
-            fovRings = {}
-            local circle = Drawing.new("Circle")
-            circle.Thickness = 2
-            circle.Color = silentSettings.fovRingColor
-            circle.Visible = true
-            circle.Radius = fovRadius
-            circle.Position = mainCameraObject._currentCamera.ViewportSize/2
-            table.insert(fovRings, circle)
+            if showFov then
+                local circle = Drawing.new("Circle")
+                circle.Thickness = 2
+                circle.Color = fovRenderColor
+                circle.Visible = true
+                circle.Radius = fovRadius
+                circle.Position = mainCameraObject._currentCamera.ViewportSize/2
+                table.insert(fovDraws, circle)
+            end
 
             local target = getClosestPlayer()
             
@@ -101,40 +102,33 @@ local function silent(state)
     end
 end
 
-local function norecoil(state)
-    if state then
-        if not Hooks.getweaponstat then
-            Hooks.getweaponstat = hookfunction(firearmObject.getWeaponStat, function(self, statname)
-                local stathooks = {
-                    camkickspeed = 0,
-                    aimcamkickspeed = 0,
-                    hipfirespread = 0,
-                    modelkickspeed = 2^31-1,
-                }
-                if stathooks[statname] then
-                    return stathooks[statname]
-                end
-                local val = Hooks.getweaponstat(self, statname)
-                return val
-            end)
-        end
-    else
-        hookfunction(firearmObject.getWeaponStat, Hooks.getweaponstat)
-        Hooks.getweaponstat = nil
-    end
-end
-
 characterEvents.onSpawned:connect(function()
-    if silentSettings.enabled then
+    if enabled then
         if cameraInterface:getCameraType() == "MainCamera" then
             mainCameraObject = cameraInterface:getActiveCamera()
-            silent(true)
+            if enabled then silent(true) end
         end
     end
 end)
 characterEvents.onDespawning:connect(function()
-    if silentSettings.enabled then silent(false) end
+    if enabled then silent(false) end
 end)
 
-getgenv().norecoil = norecoil
-getgenv().SilentSettings = silentSettings
+Interface.Aimbot = {
+    setState = function(v)
+        enabled = v
+        silent(enabled)
+    end,
+    setFovRenderColor = function(v)
+        fovRenderColor = v
+    end,
+    setTargetPart = function(v)
+        targetPart = string.lower(v)
+    end,
+    setFov = function(v)
+        fov = v
+    end,
+    showFov = function(v)
+        showFov = v
+    end
+}
