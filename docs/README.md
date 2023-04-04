@@ -81,3 +81,4 @@ Note that this cheat **only** works when in the autoexec folder. This is because
 ## Other
 - [ ] auto random deploy
 - [ ] auto squad deploy
+- [ ] runtime bypass with syn.run_on_actor()
