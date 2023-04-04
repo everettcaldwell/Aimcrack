@@ -4,7 +4,7 @@
 1. Join our [Discord](discord.gg/XgFMtkGuQj) (required)
 2. Copy the key from the #key text channel
 3. Open your Synapse root directory and navigate to the `autoexec` folder.
-4. Create a new script and copy this code into it: `loadstring(game:HttpGet("https://raw.githubusercontent.com/cyr0zn/Specter/main/loader.lua"))()`
+4. Create a new script and copy this code into it: `loadstring(game:HttpGet("https://raw.githubusercontent.com/cyr0zn/Aimcrack/main/loader.lua"))()`
 5. Run Synapse and attach it to a running Roblox instance.
 6. Open Phantom Forces and paste in the copied key
 
@@ -17,7 +17,7 @@ Note that this cheat **only** works when in the autoexec folder. This is because
 - [ ] movement prediction
 - [ ] bullet drop calculation
 - [x] dynamic fov
-- [ ] show fov
+- [x] show fov
 - [ ] smoothing (hip, sights)
 - [ ] 360
 - [ ] retargeting options (delay, sticky, distance, etc..)
@@ -40,9 +40,9 @@ Note that this cheat **only** works when in the autoexec folder. This is because
 ## ESP
 - [x] player chams
 - [x] weapon chams
-- [ ] boxes
+- [x] boxes
 - [x] skeletons
-- [ ] infos: name, health, ammo, distance, state
+- [x] infos: name, health, ammo, distance, state
 - [ ] visible only (for each esp)
 - [ ] limit distance
 - [ ] bullet tracers
