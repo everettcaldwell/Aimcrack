@@ -22,4 +22,9 @@ import('aim/rcs.lua')
 --character
 import('character/speedhack.lua')
 import('character/nofall.lua')
-import('ui/uimain.lua')
+
+--misc
+import('misc/noshake.lua')
+
+--ui
+import('ui/interface.lua')

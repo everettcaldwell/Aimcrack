@@ -1,28 +1,48 @@
 local firearmObject = shared.require("FirearmObject")
+
+if not Hooks.firearmObject then
+    Hooks.firearmObject = {}
+end
+
+local recoilx = 0
+local recoily = 0
+
 local function norecoil(state)
     if state then
-        if not Hooks.getweaponstat then
-            Hooks.getweaponstat = hookfunction(firearmObject.getWeaponStat, function(self, statname)
-                local stathooks = {
-                    camkickspeed = 0,
-                    aimcamkickspeed = 0,
-                    hipfirespread = 0,
-                    modelkickspeed = 2^31-1,
-                }
-                if stathooks[statname] then
-                    return stathooks[statname]
+        if not Hooks.firearmObject.new then
+            Hooks.firearmObject.new = hookfunction(firearmObject.new, function(...)
+               local firearm = Hooks.firearmObject.new(...)
+               
+               local mt = getrawmetatable(firearm._spreadspring)
+               setreadonly(mt, false)
+               local oldNewIndex = mt.__newindex
+               mt.__newindex = newcclosure(function(self, key, val)
+                if key == "a" then
+                    if typeof(val) == "Vector3" then
+                        local rcsAccel = Vector3.new(val.X*(1-recoily), val.Y*(1-recoilx), val.Z)
+                        return oldNewIndex(self, key, rcsAccel)
+                    end
                 end
-                local val = Hooks.getweaponstat(self, statname)
-                return val
+                return oldNewIndex(self,key,val)
+               end)
+               return firearm
             end)
-            -- TODO: Force apply weapon stats
         end
     else
-        hookfunction(firearmObject.getWeaponStat, Hooks.getweaponstat)
-        Hooks.getweaponstat = nil
+        if Hooks.firearmObject.new then
+            hookfunction(firearmObject.new, Hooks.firearmObject.new)
+            Hooks.firearmObject.new = nil
+        end
     end
+    
 end
 
 Interface.Rcs = {
-    setState = norecoil
+    setState = norecoil,
+    setRecoilX = function(v)
+        recoilx = v
+    end,
+    setRecoilY = function(v)
+        recoily = v
+    end,
 }

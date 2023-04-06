@@ -1,7 +1,6 @@
 local rs = game:GetService("RunService")
 local cameraInterface = shared.require("CameraInterface")
 local characterEvents = shared.require("CharacterEvents")
-local firearmObject = shared.require("FirearmObject")
 
 local mainCameraObject = nil
 

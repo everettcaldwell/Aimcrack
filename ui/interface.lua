@@ -143,6 +143,36 @@ AimSections.Rcs:AddToggle({
 	end
 })
 
+AimSections.Rcs:AddSlider({
+	text = "Recoil Control X",
+	flag = 'rcs_recoil_x_slider', 
+	suffix = "",
+	value = 1,
+	min = 0,
+	max = 1,
+	increment = 0.01,
+	tooltip = "Changes the effect of recoil in the x direction.",
+	risky = true,
+	callback = function(v)
+		Interface.Rcs.setRecoilX(v)
+	end
+})
+
+AimSections.Rcs:AddSlider({
+	text = "Recoil Control Y",
+	flag = 'rcs_recoil_y_slider', 
+	suffix = "",
+	value = 1,
+	min = 0,
+	max = 1,
+	increment = 0.01,
+	tooltip = "Changes the effect of recoil in the y direction.",
+	risky = true,
+	callback = function(v)
+		Interface.Rcs.setRecoilY(v)
+	end
+})
+
 VisualsSections.Esp:AddToggle({
 	enabled = true,
 	text = "Skeletons",
@@ -214,6 +244,17 @@ PlayerSections.CharacterMods:AddSlider({
 	risky = true,
 	callback = function(v)
 		Interface.Character.SetSpeed(v)
+	end
+})
+
+PlayerSections.CharacterMods:AddToggle({
+	enabled = true,
+	text = "Noshake",
+	flag = "miscvisual_noshake_toggle",
+	tooltip = "Removes the camera shake when firing a weapon.",
+	risky = false,
+	callback = function(v)
+		Interface.Misc.Noshake(v)
 	end
 })
 
