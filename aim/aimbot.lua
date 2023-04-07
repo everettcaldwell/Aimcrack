@@ -4,7 +4,6 @@ local characterEvents = shared.require("CharacterEvents")
 
 local mainCameraObject = nil
 
-local enabled = false
 local showFov = false
 local targetPart = "head"
 local fov = 20
@@ -57,7 +56,7 @@ end
 
 local fovDraws = {}
 local renderstepped = nil
-local function silent(state)
+local function aimbot(state)
     local function disconnect()
         if renderstepped then
             renderstepped:Disconnect()
@@ -70,12 +69,17 @@ local function silent(state)
     if state then
         disconnect()
         renderstepped = rs.RenderStepped:Connect(function()
-            local fovRadius = fov/mainCameraObject._currentCamera.FieldOfView*mainCameraObject._currentCamera.ViewportSize.Y/2
-
             for _,v in pairs(fovDraws) do
                 v:Remove()
             end
             fovDraws = {}
+
+            if cameraInterface:getCameraType() == "MainCamera" then
+                mainCameraObject = cameraInterface:getActiveCamera()
+            else
+                return
+            end
+            local fovRadius = fov/mainCameraObject._currentCamera.FieldOfView*mainCameraObject._currentCamera.ViewportSize.Y/2
 
             if showFov then
                 local circle = Drawing.new("Circle")
@@ -102,22 +106,17 @@ local function silent(state)
 end
 
 characterEvents.onSpawned:connect(function()
-    if enabled then
-        if cameraInterface:getCameraType() == "MainCamera" then
-            mainCameraObject = cameraInterface:getActiveCamera()
-            if enabled then silent(true) end
-        end
+    if cameraInterface:getCameraType() == "MainCamera" then
+        mainCameraObject = cameraInterface:getActiveCamera()
     end
 end)
+
 characterEvents.onDespawning:connect(function()
-    if enabled then silent(false) end
+    mainCameraObject = nil
 end)
 
 Interface.Aimbot = {
-    setState = function(v)
-        enabled = v
-        silent(enabled)
-    end,
+    setState = aimbot,
     setFovRenderColor = function(v)
         fovRenderColor = v
     end,

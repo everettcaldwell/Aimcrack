@@ -147,7 +147,7 @@ AimSections.Rcs:AddSlider({
 	text = "Recoil Control X",
 	flag = 'rcs_recoil_x_slider', 
 	suffix = "",
-	value = 1,
+	value = 0,
 	min = 0,
 	max = 1,
 	increment = 0.01,
@@ -162,7 +162,7 @@ AimSections.Rcs:AddSlider({
 	text = "Recoil Control Y",
 	flag = 'rcs_recoil_y_slider', 
 	suffix = "",
-	value = 1,
+	value = 0,
 	min = 0,
 	max = 1,
 	increment = 0.01,
@@ -247,14 +247,14 @@ PlayerSections.CharacterMods:AddSlider({
 	end
 })
 
-PlayerSections.CharacterMods:AddToggle({
+AimSections.Rcs:AddToggle({
 	enabled = true,
 	text = "Noshake",
 	flag = "miscvisual_noshake_toggle",
 	tooltip = "Removes the camera shake when firing a weapon.",
 	risky = false,
 	callback = function(v)
-		Interface.Misc.Noshake(v)
+		Interface.Rcs.Noshake(v)
 	end
 })
 
